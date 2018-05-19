@@ -1,4 +1,5 @@
 from blog_app.helpers.database import Database
+from typing import Dict, List
 
 
 class BlogPost(object):
@@ -14,9 +15,21 @@ class BlogPost(object):
     def get_dict(self):
         return self.__dict__
 
-    def post_to_db(self, uri: str, db_name: str, collection_name: str):
+    def post_to_db(self, uri: str, db_name: str, collection_name: str) -> None:
         db = Database(uri=uri, db_name=db_name)
         db.insert(collection_name=collection_name, data=self.get_dict())
+
+    @staticmethod
+    def find_posts(uri: str, db_name: str, collection_name: str, query: Dict) -> List[Dict]:
+        db = Database(uri=uri, db_name=db_name)
+        results = db.find(collection_name=collection_name, query=query)
+        return results
+
+    @staticmethod
+    def find_post(uri: str, db_name: str, collection_name: str, query: Dict) -> Dict:
+        db = Database(uri=uri, db_name=db_name)
+        result = db.find_one(collection_name=collection_name, query=query)
+        return result
 
 
 def main():
