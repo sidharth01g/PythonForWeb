@@ -5,7 +5,7 @@ import uuid
 
 class BlogPost(object):
 
-    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int]=None) -> None:
+    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int] = None) -> None:
         self.post_id = post_id if post_id is not None else uuid.uuid4().hex
         self.title = title
         self.content = content
