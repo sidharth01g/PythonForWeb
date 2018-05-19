@@ -1,17 +1,19 @@
 import datetime
-from typing import Union
+from typing import Union, Optional
 from blog_app.configurations.blog_config import BlogConfig
 from blog_app.models.post import BlogPost
+import hashlib
 
 
 class Blog(object):
 
     def __init__(self, blog_config: BlogConfig, title: str, author: str,
-                 creation_date: Union[datetime.datetime, str, None] = None):
+                 creation_date: Union[datetime.datetime, str, None] = None, blog_id: Optional[str] = None):
 
         self.blog_config = blog_config
         self.title = title
         self.author = author
+        self.blog_id = blog_id if blog_id else hashlib.sha1((self.title + self.author).encode()).hexdigest()
 
         if not creation_date:
             self.creation_date = datetime.datetime.utcnow()
@@ -26,8 +28,7 @@ class Blog(object):
 
         title = input('Post title: ')
         content = input('Post content: ')
-        blog_id = int(input('Blog ID: '))
 
-        blog_post = BlogPost(title=title, content=content, author=self.author, blog_id=blog_id)
+        blog_post = BlogPost(title=title, content=content, author=self.author, blog_id=self.blog_id)
         blog_post.post_to_db(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
                              collection_name=self.blog_config.collection_name)
