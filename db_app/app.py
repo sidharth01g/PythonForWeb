@@ -18,6 +18,8 @@ def main():
     collection = database['purchaseitems']
     results = collection.find({})
     show_results(results)
+    results_list = [result['itemname'] for result in collection.find({})]
+    print(results_list)
 
 
 if __name__ == '__main__':
