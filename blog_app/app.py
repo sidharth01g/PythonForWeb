@@ -17,6 +17,9 @@ def main():
     results = [result for result in db.find(collection_name=collection_name, query={})]
     print('Query results: ', results)
 
+    result = db.find_one(collection_name=collection_name, query={})
+    print('Query result:', result)
+
 
 if __name__ == '__main__':
     main()
