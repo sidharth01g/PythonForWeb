@@ -28,10 +28,17 @@ class BlogPost(object):
     def find_posts(uri: str, db_name: str, collection_name: str, query: Dict) -> List[Dict]:
         db = Database(uri=uri, db_name=db_name)
         results = db.find(collection_name=collection_name, query=query)
+        results = [BlogPost.wrap_result(result) for result in results]
         return results
 
     @staticmethod
     def find_post(uri: str, db_name: str, collection_name: str, query: Dict) -> Dict:
         db = Database(uri=uri, db_name=db_name)
         result = db.find_one(collection_name=collection_name, query=query)
+        result = BlogPost.wrap_result(result)
         return result
+
+    @classmethod
+    def wrap_result(cls, result):
+        return cls(title=result['title'], content=result['content'], author=result['author'], blog_id=result["blog_id"],
+                   post_id=result['post_id'], date=result['date'])
