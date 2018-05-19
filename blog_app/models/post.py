@@ -1,16 +1,20 @@
 from blog_app.helpers.database import Database
 from typing import Optional, Dict, List
 import uuid
+import datetime
 
 
 class BlogPost(object):
 
-    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int] = None) -> None:
-        self.post_id = post_id if post_id is not None else uuid.uuid4().hex
+    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int] = None,
+                 date: Optional[datetime.datetime] = None) -> None:
         self.title = title
         self.content = content
         self.author = author
         self.blog_id = blog_id
+
+        self.post_id = post_id if post_id is not None else uuid.uuid4().hex
+        self.date = date if date is not None else datetime.datetime.utcnow()
         pass
 
     def get_dict(self):
