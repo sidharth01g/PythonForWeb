@@ -1,0 +1,11 @@
+<students>
+    <Emma>
+        <specialization>Physics</specialization>
+    </Emma>
+    <Marie>
+        <specialization>Computer Science</specialization>
+    </Marie>
+    <Larry>
+        <specialization>Mathematics</specialization>
+    </Larry>
+</students>
