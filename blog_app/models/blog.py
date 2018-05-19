@@ -37,5 +37,4 @@ class Blog(object):
         results = BlogPost.find_posts(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
                                       collection_name=self.blog_config.collection_name,
                                       query={'blog_id': self.blog_id})
-        results = [result for result in results]
         return results
