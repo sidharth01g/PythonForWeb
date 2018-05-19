@@ -1,5 +1,5 @@
 import pymongo
-import pandas as pd
+from blog_app.models import post
 
 
 class DBSettings:
