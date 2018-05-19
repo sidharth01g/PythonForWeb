@@ -13,7 +13,7 @@ def main():
     blog.create_post()
     results = blog.get_posts()
     print('Current blog posts:')
-    pp.pprint(results)
+    pp.pprint([result.get_dict() for result in results])
 
 
 if __name__ == '__main__':
