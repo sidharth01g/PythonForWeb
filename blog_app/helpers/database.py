@@ -1,5 +1,5 @@
 import pymongo
-from typing import Any
+from typing import Optional, Dict
 
 
 class Database(object):
@@ -18,7 +18,7 @@ class Database(object):
             print('ERROR: ', error)
             raise error
 
-    def find(self, collection_name: str, query: Any):
+    def find(self, collection_name: str, query: Optional[Dict]):
         try:
             results = self.database[collection_name].find(query)
         except Exception as error:
@@ -26,7 +26,7 @@ class Database(object):
             raise error
         return results
 
-    def find_one(self, collection_name: str, query: Any):
+    def find_one(self, collection_name: str, query: Optional[Dict]):
         try:
             results = self.database[collection_name].find_one(query)
         except Exception as error:
