@@ -1,11 +1,12 @@
 from blog_app.helpers.database import Database
-from typing import Dict, List
+from typing import Optional, Dict, List
+import uuid
 
 
 class BlogPost(object):
 
-    def __init__(self, post_id: int, title: str, content: str, author: str, blog_id: int) -> None:
-        self.post_id = post_id
+    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int]=None) -> None:
+        self.post_id = post_id if post_id is not None else uuid.uuid4().hex
         self.title = title
         self.content = content
         self.author = author
@@ -33,7 +34,7 @@ class BlogPost(object):
 
 
 def main():
-    p = BlogPost(post_id=1, title='Majestic maneuver', content='They pulled off a coup', author='Enigma', blog_id=223)
+    p = BlogPost(title='Majestic maneuver', content='They pulled off a coup', author='Enigma', blog_id=223, post_id=1)
     print(p.get_dict())
 
 
