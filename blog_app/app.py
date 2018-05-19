@@ -1,7 +1,6 @@
 from blog_app.models.post import BlogPost
 
 
-
 def main():
     uri = 'mongodb://127.0.0.1:27017'
     db_name = 'blog_db'
