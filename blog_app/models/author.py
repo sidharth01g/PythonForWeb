@@ -1,11 +1,11 @@
 from blog_app.helpers.database import Database
-from typing import Dict, List
+from typing import Dict, List, Optional
 import uuid
 
 
 class Author(object):
 
-    def __init__(self, author: str, author_id: str) -> None:
+    def __init__(self, author: str, author_id: Optional[str] = None) -> None:
         self.author = author
         self.author_id = author_id if author_id is not None else uuid.uuid4().hex
 
