@@ -6,7 +6,7 @@ import datetime
 
 class BlogPost(object):
 
-    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int] = None,
+    def __init__(self, title: str, content: str, author: str, blog_id: str, post_id: Optional[str] = None,
                  date: Optional[datetime.datetime] = None) -> None:
         self.title = title
         self.content = content
@@ -25,22 +25,20 @@ class BlogPost(object):
         db.insert(collection_name=collection_name, data=self.get_dict())
 
     @staticmethod
-    def find_posts(uri: str, db_name: str, collection_name: str, query: Dict) -> List[Dict]:
+    def find_posts(uri: str, db_name: str, collection_name: str, query: Dict) -> List['BlogPost']:
         db = Database(uri=uri, db_name=db_name)
         results = db.find(collection_name=collection_name, query=query)
+        results = [BlogPost.wrap_result(result) for result in results]
         return results
 
     @staticmethod
-    def find_post(uri: str, db_name: str, collection_name: str, query: Dict) -> Dict:
+    def find_post(uri: str, db_name: str, collection_name: str, query: Dict) -> 'BlogPost':
         db = Database(uri=uri, db_name=db_name)
         result = db.find_one(collection_name=collection_name, query=query)
+        result = BlogPost.wrap_result(result)
         return result
 
-
-def main():
-    p = BlogPost(title='Majestic maneuver', content='They pulled off a coup', author='Enigma', blog_id=223, post_id=1)
-    print(p.get_dict())
-
-
-if __name__ == '__main__':
-    main()
+    @classmethod
+    def wrap_result(cls, result):
+        return cls(title=result['title'], content=result['content'], author=result['author'], blog_id=result["blog_id"],
+                   post_id=result['post_id'], date=result['date'])
