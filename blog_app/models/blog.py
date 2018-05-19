@@ -1,5 +1,5 @@
 import datetime
-from typing import Union, Optional, List, Dict
+from typing import Union, Optional, List
 from blog_app.configurations.blog_config import BlogConfig
 from blog_app.models.post import BlogPost
 import hashlib
@@ -33,7 +33,7 @@ class Blog(object):
         blog_post.post_to_db(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
                              collection_name=self.blog_config.collection_name)
 
-    def get_posts(self) -> List[Dict]:
+    def get_posts(self) -> List[BlogPost]:
         results = BlogPost.find_posts(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
                                       collection_name=self.blog_config.collection_name,
                                       query={'blog_id': self.blog_id})
