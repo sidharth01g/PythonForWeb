@@ -1,5 +1,4 @@
 from blog_app.models.post import BlogPost
-from blog_app.helpers.database import Database
 
 
 def main():
@@ -13,11 +12,11 @@ def main():
         post_id=2, title='Majestic maneuver', content='They pulled off a coup', author='Enigma', blog_id=223)
     post2.post_to_db(uri=uri, db_name=db_name, collection_name=collection_name)
 
-    db = Database(uri=uri, db_name=db_name)
-    results = [result for result in db.find(collection_name=collection_name, query={})]
+    results = [result for result in
+               BlogPost.find_posts(uri=uri, db_name=db_name, collection_name=collection_name, query={})]
     print('Query results: ', results)
 
-    result = db.find_one(collection_name=collection_name, query={})
+    result = BlogPost.find_post(uri=uri, db_name=db_name, collection_name=collection_name, query={})
     print('Query result:', result)
 
 
