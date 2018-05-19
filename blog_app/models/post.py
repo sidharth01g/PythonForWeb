@@ -6,7 +6,7 @@ import datetime
 
 class BlogPost(object):
 
-    def __init__(self, title: str, content: str, author: str, blog_id: int, post_id: Optional[int] = None,
+    def __init__(self, title: str, content: str, author: str, blog_id: str, post_id: Optional[str] = None,
                  date: Optional[datetime.datetime] = None) -> None:
         self.title = title
         self.content = content
@@ -35,12 +35,3 @@ class BlogPost(object):
         db = Database(uri=uri, db_name=db_name)
         result = db.find_one(collection_name=collection_name, query=query)
         return result
-
-
-def main():
-    p = BlogPost(title='Majestic maneuver', content='They pulled off a coup', author='Enigma', blog_id=223, post_id=1)
-    print(p.get_dict())
-
-
-if __name__ == '__main__':
-    main()
