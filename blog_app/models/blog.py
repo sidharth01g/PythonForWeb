@@ -31,10 +31,10 @@ class Blog(object):
 
         blog_post = BlogPost(title=title, content=content, author=self.author, blog_id=self.blog_id)
         blog_post.post_to_db(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
-                             collection_name=self.blog_config.collection_name)
+                             collection_name=self.blog_config.collection_name_posts)
 
     def get_posts(self) -> List[BlogPost]:
         results = BlogPost.find_posts(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
-                                      collection_name=self.blog_config.collection_name,
+                                      collection_name=self.blog_config.collection_name_posts,
                                       query={'blog_id': self.blog_id})
         return results
