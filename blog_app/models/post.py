@@ -17,7 +17,7 @@ class BlogPost(object):
         self.date = date if date is not None else datetime.datetime.utcnow()
         pass
 
-    def get_dict(self):
+    def get_dict(self) -> Dict:
         return self.__dict__
 
     def post_to_db(self, uri: str, db_name: str, collection_name: str) -> None:
