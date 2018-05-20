@@ -25,7 +25,7 @@ class Blog(object):
         else:
             raise TypeError('Blog creation date is of invalid type or format')
 
-    def create_blog(self, blog_config: BlogConfig):
+    def create_blog(self, blog_config: BlogConfig) -> None:
         query = {"blog_id": self.blog_id}
         results = Blog.find_blogs(blog_config=blog_config, query=query)
         if len(results) == 0:
@@ -36,14 +36,14 @@ class Blog(object):
             print('This blog exists already')
 
     @staticmethod
-    def find_blogs(blog_config: BlogConfig, query: dict):
+    def find_blogs(blog_config: BlogConfig, query: dict) -> List['Blog']:
         db = Database(uri=blog_config.uri, db_name=blog_config.db_name)
         results = db.find(collection_name=blog_config.collection_name_blogs, query=query)
         results = [Blog.wrap_result(result) for result in results] if results else results
         return results
 
     @staticmethod
-    def find_blog(blog_config: BlogConfig, query: dict):
+    def find_blog(blog_config: BlogConfig, query: dict) -> 'Blog':
         db = Database(uri=blog_config.uri, db_name=blog_config.db_name)
         result = db.find_one(collection_name=blog_config.collection_name_blogs, query=query)
         result = Blog.wrap_result(result) if result else result
@@ -54,7 +54,7 @@ class Blog(object):
         return cls(title=result['title'], author=result['author'],
                    blog_id=result["blog_id"], creation_date=result['creation_date'])
 
-    def create_post(self, blog_config: BlogConfig):
+    def create_post(self, blog_config: BlogConfig) -> None:
 
         title = input('Post title: ')
         content = input('Post content: ')
