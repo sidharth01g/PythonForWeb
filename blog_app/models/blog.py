@@ -3,6 +3,7 @@ from typing import Union, Optional, List
 from blog_app.configurations.blog_config import BlogConfig
 from blog_app.models.post import BlogPost
 import hashlib
+from blog_app.helpers.database import Database
 
 
 class Blog(object):
@@ -23,6 +24,37 @@ class Blog(object):
             self.creation_date = creation_date
         else:
             raise TypeError('Blog creation date is of invalid type or format')
+
+        query = {"blog_id": self.blog_id}
+        results = Blog.find_blogs(blog_config=self.blog_config, query=query)
+        if len(results) == 0:
+            print("Creating new blog titled '{}'".format(self.title))
+            self._create_blog()
+        else:
+            print('This blog exists already')
+
+    def _create_blog(self):
+        db = Database(uri=self.blog_config.uri, db_name=self.blog_config.db_name)
+        db.insert(collection_name=self.blog_config.collection_name_blogs, data=self.__dict__())
+
+    @staticmethod
+    def find_blogs(blog_config: BlogConfig, query: dict):
+        db = Database(uri=blog_config.uri, db_name=blog_config.db_name)
+        results = db.find(collection_name=blog_config.collection_name_blogs, query=query)
+        results = [Blog.wrap_result(result) for result in results]
+        return results
+
+    @staticmethod
+    def find_blog(blog_config: BlogConfig, query: dict):
+        db = Database(uri=blog_config.uri, db_name=blog_config.db_name)
+        result = db.find_one(collection_name=blog_config.collection_name_blogs, query=query)
+        result = Blog.wrap_result(result)
+        return result
+
+    @classmethod
+    def wrap_result(cls, result):
+        return cls(blog_config=result['blog_config'], title=result['title'], author=result['author'],
+                   blog_id=result["blog_id"], creation_date=result['creation_date'])
 
     def create_post(self):
 
