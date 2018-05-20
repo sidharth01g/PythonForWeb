@@ -2,7 +2,7 @@ from blog_app.configurations.blog_config import BlogConfig
 from blog_app.models.menu import Menu
 
 
-def main():
+def main() -> None:
     uri = 'mongodb://127.0.0.1:27017'
     db_name = 'blog_db'
     collection_name_posts = 'blog_posts'
