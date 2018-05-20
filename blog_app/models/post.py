@@ -28,14 +28,14 @@ class BlogPost(object):
     def find_posts(uri: str, db_name: str, collection_name: str, query: Dict) -> List['BlogPost']:
         db = Database(uri=uri, db_name=db_name)
         results = db.find(collection_name=collection_name, query=query)
-        results = [BlogPost.wrap_result(result) for result in results]
+        results = [BlogPost.wrap_result(result) for result in results] if results else results
         return results
 
     @staticmethod
     def find_post(uri: str, db_name: str, collection_name: str, query: Dict) -> 'BlogPost':
         db = Database(uri=uri, db_name=db_name)
         result = db.find_one(collection_name=collection_name, query=query)
-        result = BlogPost.wrap_result(result)
+        result = BlogPost.wrap_result(result) if result else result
         return result
 
     @classmethod
