@@ -19,13 +19,13 @@ class Menu(object):
                          collection_name=self.blog_config.collection_name_authors)
             print('Hello, {authorname}, great to see you here!'.format(authorname=self.authorname))
 
-    def _has_account(self):
+    def _has_account(self) -> bool:
         results = Author.find_authors(uri=self.blog_config.uri, db_name=self.blog_config.db_name,
                                       collection_name=self.blog_config.collection_name_authors,
                                       query={"author": self.authorname})
         return len(results) > 0
 
-    def run_menu(self):
+    def run_menu(self) -> None:
         print('Existing blogs:')
         self._list_blogs()
 
@@ -33,7 +33,7 @@ class Menu(object):
         self._write_or_read()
         pass
 
-    def _write_or_read(self):
+    def _write_or_read(self) -> None:
 
         choice = input('Would you like to write(W) or read(R) blogs?: ')
         choice = choice.lower()
@@ -45,16 +45,16 @@ class Menu(object):
             self._read_blogs()
             pass
 
-    def _write_blog(self):
+    def _write_blog(self) -> None:
         blog_title = input('Blog title: ')
         blog = Blog(title=blog_title, author=self.authorname)
         blog.create_post(blog_config=self.blog_config)
 
-    def _list_blogs(self):
+    def _list_blogs(self) -> None:
         results = Blog.find_blogs(blog_config=self.blog_config, query={})
         pp.pprint([result.__dict__ for result in results])
 
-    def _read_blogs(self):
+    def _read_blogs(self) -> None:
         blog_id = input('ID  of the blog to view: ')
         blog = Blog.find_blog(blog_config=self.blog_config, query={'blog_id': blog_id})
         if not blog:
